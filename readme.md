@@ -7,17 +7,17 @@ It does exponential backoff and supports custom retry strategies for failed oper
 ## Install
 
 ```sh
-npm install p-retry
+npm install @lpezet/p-retry-cjs
 ```
 
 ## Usage
 
 ```js
-import pRetry, {AbortError} from 'p-retry';
-import fetch from 'node-fetch';
+import pRetry, { AbortError } from "@lpezet/p-retry-cjs";
+import fetch from "node-fetch";
 
 const run = async () => {
-	const response = await fetch('https://sindresorhus.com/unicorn');
+	const response = await fetch("https://sindresorhus.com/unicorn");
 
 	// Abort retrying if the resource doesn't exist
 	if (response.status === 404) {
@@ -27,7 +27,7 @@ const run = async () => {
 	return response.blob();
 };
 
-console.log(await pRetry(run, {retries: 5}));
+console.log(await pRetry(run, { retries: 5 }));
 ```
 
 ## API
@@ -57,10 +57,10 @@ Type: `Function`
 Callback invoked on each retry. Receives the error thrown by `input` as the first argument with properties `attemptNumber` and `retriesLeft` which indicate the current attempt number and the number of attempts left, respectively.
 
 ```js
-import pRetry from 'p-retry';
+import pRetry from "@lpezet/p-retry-cjs";
 
 const run = async () => {
-	const response = await fetch('https://sindresorhus.com/unicorn');
+	const response = await fetch("https://sindresorhus.com/unicorn");
 
 	if (!response.ok) {
 		throw new Error(response.statusText);
@@ -70,13 +70,15 @@ const run = async () => {
 };
 
 const result = await pRetry(run, {
-	onFailedAttempt: error => {
-		console.log(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`);
+	onFailedAttempt: (error) => {
+		console.log(
+			`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`,
+		);
 		// 1st request => Attempt 1 failed. There are 4 retries left.
 		// 2nd request => Attempt 2 failed. There are 3 retries left.
 		// …
 	},
-	retries: 5
+	retries: 5,
 });
 
 console.log(result);
@@ -85,7 +87,7 @@ console.log(result);
 The `onFailedAttempt` function can return a promise. For example, you can do some async logging:
 
 ```js
-import pRetry from 'p-retry';
+import pRetry from '@lpezet/p-retry-cjs';
 import logger from './some-logger';
 
 const run = async () => { … };
@@ -108,7 +110,7 @@ Decide if a retry should occur based on the error. Returning true triggers a ret
 It is not called for `TypeError` (except network errors) and `AbortError`.
 
 ```js
-import pRetry from 'p-retry';
+import pRetry from '@lpezet/p-retry-cjs';
 
 const run = async () => { … };
 
@@ -126,7 +128,7 @@ Type: [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSign
 You can abort retrying using [`AbortController`](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
 
 ```js
-import pRetry from 'p-retry';
+import pRetry from '@lpezet/p-retry-cjs';
 
 const run = async () => { … };
 const controller = new AbortController();
@@ -144,6 +146,7 @@ try {
 ```
 
 ### AbortError(message)
+
 ### AbortError(error)
 
 Abort retrying and reject the promise.
@@ -165,20 +168,31 @@ A custom error.
 You can pass arguments to the function being retried by wrapping it in an inline arrow function:
 
 ```js
-import pRetry from 'p-retry';
+import pRetry from "@lpezet/p-retry-cjs";
 
-const run = async emoji => {
+const run = async (emoji) => {
 	// …
 };
 
 // Without arguments
-await pRetry(run, {retries: 5});
+await pRetry(run, { retries: 5 });
 
 // With arguments
-await pRetry(() => run('🦄'), {retries: 5});
+await pRetry(() => run("🦄"), { retries: 5 });
 ```
 
 ## Related
 
 - [p-timeout](https://github.com/sindresorhus/p-timeout) - Timeout a promise after a specified amount of time
 - [More…](https://github.com/sindresorhus/promise-fun)
+
+# Publishing
+
+To publish next version of `etl-js`, run the following:
+
+```bash
+npm version patch
+git push --tags origin master
+npm run dist
+npm publish --access public
+```
