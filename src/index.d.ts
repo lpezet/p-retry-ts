@@ -12,10 +12,10 @@ export class AbortError extends Error {
 	constructor(message: string | Error);
 }
 
-export type FailedAttemptError = {
+export class FailedAttemptError extends Error {
 	readonly attemptNumber: number;
 	readonly retriesLeft: number;
-} & Error;
+}
 
 export type Options = {
 	/**
