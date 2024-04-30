@@ -18,7 +18,7 @@
 			"email": "lpezet@gmail.com"
 		}
 	],
-	"exports": "./dist/index.js",
+	"main": "index.js",
 	"types": "./dist/index.d.ts",
 	"sideEffects": false,
 	"engines": {
@@ -32,7 +32,7 @@
 		"prepublish": "npm run dist"
 	},
 	"files": [
-		"dist"
+		"dist/src"
 	],
 	"keywords": [
 		"promise",
