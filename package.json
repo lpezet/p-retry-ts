@@ -18,8 +18,8 @@
 			"email": "lpezet@gmail.com"
 		}
 	],
-	"main": "index.js",
-	"types": "./dist/index.d.ts",
+	"main": "dist/src/index.js",
+	"types": "./dist/src/index.d.ts",
 	"sideEffects": false,
 	"engines": {
 		"node": ">=16.17"
