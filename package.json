@@ -1,5 +1,5 @@
 {
-	"name": "p-retry-cjs",
+	"name": "@lpezet/p-retry-ts",
 	"version": "6.2.1",
 	"description": "Retry a promise-returning or async function",
 	"license": "MIT",
